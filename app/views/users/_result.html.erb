@@ -1,14 +1,20 @@
-<div class="results-block">
-  <%= bootstrap_flash %>
-</div>
+<% if params[:action] == 'search' %>
+  <div class="results-block">
+    <%= bootstrap_flash %>
+  </div>
+<% end %>
 
 <% if @stock %>
   <div class="well results-block">
     <strong>Symbol: </strong> <%= @stock.ticker %>
     <strong>Name: </strong> <%= @stock.name %>
     <strong>Price: </strong> <%= @stock.last_price %>
+    <% if current_user.can_add_stock?(@stock.ticker) %>
     <%= link_to "Toevoegen aan mijn list", user_stocks_path(user: current_user, stock_ticker: @stock.ticker),
                                                           class: "btn btn-xs btn-succes", method: :post %>
+    <% else %>
+    "Je kan het niet toevoegen omdat je een van de volgende fouten hebt a) te veel stocks in je list of b) deze stock volg je al"
+    <% end %>
   </div>
 <% end %>
 
