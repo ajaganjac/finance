@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { :registrations => "user/registrations" }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :users, only: [:show]
+  resources :friendships
  
   root 'welcome#index'
  
@@ -8,7 +10,13 @@ Rails.application.routes.draw do
   get 'search_stocks', to: 'stocks#search'
   get 'my_listing', to: 'users#my_listing'
   
+  get 'my_friends', to: 'users#my_friends'
+  
+  get 'search_friends', to: 'users#search'
+  
   
   resources :user_stocks, only: [:create, :destroy]
+  
+  
   
 end
